@@ -1,0 +1,17 @@
+* {
+  box-sizing: content-box;
+}
+
+body {
+  overflow: hidden;
+}
+
+#keyboard.qwertz {
+  /*border: 2px solid red;*/
+  width: 1000px;
+  height: 500px;
+  background-image: url(Anonymous_German_computer_keyboard_layout.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
