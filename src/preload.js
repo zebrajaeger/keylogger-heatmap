@@ -1,5 +1,7 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const {contextBridge, ipcRenderer} = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  onUpdateCounter: (callback) => ipcRenderer.on('update-counter', callback)
+    onKeyEvent: (callback) => ipcRenderer.on('key-event', callback),
+    onGradientChange: (callback) => ipcRenderer.on('gradient-change', callback),
+    onSizeChange: (callback) => ipcRenderer.on('size-change', callback)
 })
