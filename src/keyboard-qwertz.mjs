@@ -1,10 +1,6 @@
-const keyboards = {
-  qwertz: {}
-}
+const rowY = [0.064, 0.162, 0.242, 0.322, 0.406, 0.484];
 
-const ys = [0.064, 0.162, 0.242, 0.322, 0.406, 0.484];
-
-const cfgs = [
+const keys = [
   {
     keys: [27],
     x: 0.03,
@@ -175,26 +171,8 @@ const cfgs = [
     xMax: 0.736,
     row: 5,
   },
-]
+];
 
-const kb = keyboards.qwertz;
-
-for (const cfg of cfgs) {
-  const diffX = cfg.xMax - cfg.xMin;
-
-  let n = (cfg.keys) ? cfg.keys.length - 1 : 0;
-  if (n === 0) {
-    const key = cfg.key || cfg.keys[0];
-    const x = cfg.x || cfg.xMin;
-    const y = (cfg.row === undefined) ? cfg.y : ys[cfg.row];
-    kb[key] = {x, y};
-  } else {
-    for (let i = 0; i <= n; ++i) {
-      const x = cfg.xMin + (i * diffX / (n));
-      kb[cfg.keys[i]] = {x, y: ys[cfg.row]};
-    }
-  }
-}
-
-console.log(keyboards)
+const qwertz = {keys, rowY};
+export {qwertz}
 

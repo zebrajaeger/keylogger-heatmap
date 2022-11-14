@@ -1,30 +1,5 @@
-const gradients = {
-    rgb: {
-        0.33: "rgb(0,0,255)",
-        0.66: "rgb(0,255,0)",
-        1: "rgb(255,0,0)",
-    },
-    a: {
-        0.45: "rgb(0,0,255)",
-        0.55: "rgb(0,255,255)",
-        0.65: "rgb(0,255,0)",
-        0.95: "yellow",
-        1.0: "rgb(255,0,0)"
-    },
-    b: {
-        0.45: "rgb(255,255,255)",
-        0.70: "rgb(0,0,0)",
-        0.9: "rgb(2,255,246)",
-        1.0: "rgb(3,34,66)"
-    },
-    c: {
-        0.45: "rgb(216,136,211)",
-        0.55: "rgb(0,255,255)",
-        0.65: "rgb(233,59,233)",
-        0.95: "rgb(255,0,240)",
-        1.0: "yellow"
-    }
-};
+import {keyboards} from './keyboards.mjs'
+import {gradients} from './gradients.mjs'
 
 const $keyboard = $('#keyboard')
 const bounds = {
@@ -38,32 +13,37 @@ const config = {
     container: $keyboard.get(0),
     radius: 40,
     blur: 1,
-    gradient: gradients[0],
+    gradient: gradients.rgb,
     visible: true,
-    maxOpacity: .9,
-    minOpacity: 0.2,
+     maxOpacity: 1,
+     minOpacity: 0.05,
 };
 
 const heatmap = h337.create(config);
 
+// add a new keystroke to the heatmap data
 window.electronAPI.onKeyEvent((_event, value) => {
     if (value.isKeyUp === true) {
+        // prevent two datapoints for every keystroke
         return;
     }
 
     let key = keyboard[value.keyCode];
     if (key) {
-        console.log(value, key)
         heatmap.addData({x: bounds.w * key.x, y: bounds.h * key.y})
     } else {
+        // tool to show key press data in the browser console, to map a new keyboard
         console.log(value)
     }
 })
 
+// change heatmap gradient colors
 window.electronAPI.onGradientChange((_event, value) => {
     config.gradient = gradients[value] || gradients[0];
     heatmap.configure(config);
 })
+
+// change heatmap data points size
 window.electronAPI.onSizeChange((_event, value) => {
     // for the new points
     config.radius = value;
@@ -77,6 +57,7 @@ window.electronAPI.onSizeChange((_event, value) => {
     heatmap.repaint();
 })
 
+// tool to print out coordinate to add find out key position of a keyboard image
 $keyboard.mousedown(e => {
     const offset = $keyboard.offset();
     const pos = {
