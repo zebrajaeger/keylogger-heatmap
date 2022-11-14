@@ -16,8 +16,10 @@
     "name": "Lars Brandt",
     "email": "brandt@silpion.de"
   },
+  "homepage": "https://github.com/zebrajaeger/keylogger-heatmap",
   "license": "MIT",
   "dependencies": {
+    "about-window": "^1.15.2",
     "electron-reloader": "^1.2.3",
     "electron-squirrel-startup": "^1.0.0",
     "keylogger.js": "^0.0.4"

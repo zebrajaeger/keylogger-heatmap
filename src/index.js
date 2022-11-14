@@ -10,16 +10,19 @@ try {
 } catch (_) {
 }
 
+const openAboutWindow = require('about-window').default;
+
 (async () => {
   // prevent error message about hardware acceleration but is this a solution???
-  //app.disableHardwareAcceleration();
-  app.commandLine.appendSwitch('force_high_performance_gpu');
+  // app.disableHardwareAcceleration();
+  // app.commandLine.appendSwitch('force_high_performance_gpu');
 
   const mainWindow = await init();
   const {createMenu} = await import( './application-menu.mjs');
   const menu = createMenu({
     onGradient: v => mainWindow.webContents.send('gradient-change', v),
     onSize: v => mainWindow.webContents.send('size-change', v),
+    onAbout: about
   })
   Menu.setApplicationMenu(menu);
 })();
@@ -38,6 +41,7 @@ function init(menu) {
         webPreferences: {
           preload: path.join(__dirname, 'preload.js'),
         },
+        icon: path.join(__dirname, 'icon.png')
       });
 
       // Menu.setApplicationMenu(createMenu({
@@ -74,5 +78,15 @@ function init(menu) {
         createWindow();
       }
     });
+  })
+}
+
+function about() {
+  console.log('erfgrsfdrdgrdsggrsd')
+  openAboutWindow({
+    icon_path: path.join(__dirname, 'icon.png'),
+    package_json_dir: path.join(__dirname, '..'),
+    show_close_button: 'Close'
+    // open_devtools: process.env.NODE_ENV !== 'production',
   })
 }

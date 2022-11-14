@@ -12,9 +12,7 @@
   if (typeof module !== "undefined" && module.exports) {
     module.exports = factory();
   } else if (typeof define === "function" && define.amd) {
-    console.log('B')
   } else {
-    console.log('C')
     context[name] = factory();
   }
 
